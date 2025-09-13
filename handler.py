@@ -8,7 +8,7 @@ import uuid
 import boto3
 from botocore.config import Config
 
-# Global variables for model and storage
+# Global variables for model and storage client
 pipe = None
 s3 = None
 
