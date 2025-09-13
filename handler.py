@@ -1,4 +1,5 @@
 import runpod
+from runpod.serverless import start
 import torch
 from diffusers import FluxPipeline
 import os
@@ -88,4 +89,4 @@ def handler(job):
         return {"error": str(e)}
 
 if __name__ == "__main__":
-    runpod.serverless.start({"handler": handler})
+    start(handler)

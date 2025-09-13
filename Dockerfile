@@ -23,5 +23,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-# This is the correct, explicit command to start the RunPod worker
-CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
+# Run the handler directly since it contains the serverless start logic
+CMD ["python", "-u", "handler.py"]
