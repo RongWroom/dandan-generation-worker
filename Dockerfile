@@ -1,4 +1,4 @@
-# Version 1.1 - Force cache invalidation
+# Version 1.2 - Correcting the CMD instruction
 FROM python:3.10
 
 # Install essential system-level dependencies
@@ -23,5 +23,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-# Run the handler directly since it contains the serverless start logic
-CMD ["python", "-u", "handler.py"]
+# This is the correct, explicit command to start the RunPod worker
+CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
