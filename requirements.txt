@@ -3,4 +3,5 @@ runpod
 diffusers==0.27.2
 transformers==4.38.2
 accelerate==0.27.2
-# PyTorch is included in the base Docker image needed for Runpod
+# Library for Supabase Storage (version pinned for stability)
+boto3==1.28.39
