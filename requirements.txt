@@ -1,1 +1,6 @@
 runpod
+# Libraries for FLUX model
+diffusers==0.27.2
+transformers==4.38.2
+accelerate==0.27.2
+# PyTorch is included in the base Docker image

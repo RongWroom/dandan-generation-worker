@@ -1,9 +1,9 @@
-FROM python:3.10-slim
+FROM runpod/pytorch:2.2.2-py3.10-cuda12.1.1-devel
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
