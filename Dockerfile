@@ -7,4 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
+# DIAGNOSTIC COMMAND: List all installed packages and then exit.
+CMD ["sh", "-c", "echo '--- INSTALLED PACKAGES ---' && pip list && echo '--- END ---'"]
