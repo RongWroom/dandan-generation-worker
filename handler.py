@@ -678,4 +678,33 @@ def handler(job):
         return {"error": error_msg}
 
 if __name__ == "__main__":
+    # Add startup logging
+    logger.info("=== STARTING RUNPOD WORKER ===")
+    logger.info(f"Python version: {sys.version}")
+    logger.info(f"Working directory: {os.getcwd()}")
+    logger.info(f"Environment variables: SUPABASE_URL={'set' if os.getenv('SUPABASE_URL') else 'NOT SET'}")
+    logger.info(f"Environment variables: SUPABASE_SERVICE_KEY={'set' if os.getenv('SUPABASE_SERVICE_KEY') else 'NOT SET'}")
+    
+    try:
+        import torch
+        logger.info(f"PyTorch version: {torch.__version__}")
+        logger.info(f"CUDA available: {torch.cuda.is_available()}")
+        if torch.cuda.is_available():
+            logger.info(f"CUDA device count: {torch.cuda.device_count()}")
+            logger.info(f"Current CUDA device: {torch.cuda.current_device()}")
+    except Exception as e:
+        logger.error(f"Error checking PyTorch/CUDA: {e}")
+    
+    # Validate critical environment variables before starting
+    required_env_vars = ["SUPABASE_URL", "SUPABASE_SERVICE_KEY"]
+    missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+    
+    if missing_vars:
+        logger.error(f"CRITICAL: Missing required environment variables: {missing_vars}")
+        logger.error("Worker cannot start without these environment variables")
+        logger.error("Please set these in your RunPod environment configuration")
+        sys.exit(1)
+    
+    logger.info("Environment validation passed")
+    logger.info("Starting RunPod serverless handler...")
     start(handler)
