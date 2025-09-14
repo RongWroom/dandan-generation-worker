@@ -1,4 +1,4 @@
-# Version 1.2 - Forcing correct CMD and cache invalidation
+# Version 1.3 - Final cache invalidation
 FROM python:3.10
 
 # Install essential system-level dependencies
@@ -23,6 +23,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-# THIS IS THE CRITICAL FIX:
-# Use the explicit command to start the RunPod worker module.
+# Use the explicit command to start the RunPod worker module
 CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
