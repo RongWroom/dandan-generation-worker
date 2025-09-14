@@ -1,13 +1,27 @@
-# Version 3.0 - Using the official RunPod PyTorch Template
-FROM runpod/pytorch:2.2.1-py3.10-cuda11.8.0-devel
+# Version 4.0 - Returning to the proven, stable build method
+FROM python:3.10
+
+# Install essential system-level dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY requirements.txt .
-COPY handler.py .
+# Install PyTorch with CUDA support first - this is the most reliable method
+RUN pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cu121
 
-# PyTorch is already in the base image. We just install our application's libraries.
+# Copy and install the rest of the application requirements
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# The base image is pre-configured to start the worker correctly.
+COPY handler.py .
+
+# Use the explicit command to start the RunPod worker
 CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
