@@ -1,4 +1,5 @@
-FROM python:3.10-slim
+# Version 2.0 - Using the full python base image for reliability
+FROM python:3.10
 
 WORKDIR /app
 
@@ -7,5 +8,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY handler.py .
 
-# DIAGNOSTIC COMMAND: List all installed packages and then exit.
-CMD ["sh", "-c", "echo '--- INSTALLED PACKAGES ---' && pip list && echo '--- END ---'"]
+# Use the explicit command to start the RunPod worker
+CMD ["python", "-u", "-m", "runpod.serverless.start", "--handler_file", "handler.py", "--handler_name", "handler"]
